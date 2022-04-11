@@ -1,4 +1,4 @@
-# Codename Generator
+# [Codename Generator](https://pmuens.github.io/codename-generator/)
 
 Tool that generates project codenames to combat [decision fatigue](https://en.wikipedia.org/wiki/Decision_fatigue) and [procrastination](https://en.wikipedia.org/wiki/Procrastination).
 
