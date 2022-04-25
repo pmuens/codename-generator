@@ -15,16 +15,26 @@
       div {
         text-align: center;
       }
-      div > input {
+      div input {
         margin: auto;
         display: block;
         text-align: center;
         margin-bottom: 12px;
       }
+      hr {
+        margin: 25px 0;
+      }
     </style>
     <div>
       <h1>Codename Generator</h1>
-      <input type="text" placeholder="Click Button Below" readonly />
+      <input type="text" id="name" readonly />
+      <hr />
+      <form>
+        <label for="separator">Separator</label>
+        <input type="text" id="separator" name="separator" value="-" />
+        <label for="digits">Appended Digits</label>
+        <input type="number" min="0" id="digits" name="digits" value="0" />
+      </form>
       <button>Generate Codename</button>
     </div>
     <script type="text/javascript">
@@ -42,17 +52,38 @@
         const nouns = await result[1].json();
 
         const button = document.querySelector("button");
-        const input = document.querySelector("input");
+        const name = document.querySelector("input#name");
+        const separator = document.querySelector("input#separator");
+        const digits = document.querySelector("input#digits");
 
-        button.onclick = function () {
+        function generateName() {
           // Adaption of https://stackoverflow.com/a/5915122
           const randAdjIdx = Math.floor(Math.random() * adjectives.length);
           const randNounIdx = Math.floor(Math.random() * nouns.length);
 
           const adjective = adjectives[randAdjIdx];
           const noun = nouns[randNounIdx];
-          input.value = `${adjective}-${noun}`;
-        };
+
+          const sep = separator.value;
+
+          let number = 0;
+          const parsedDigits = parseInt(digits.value);
+          if (!Number.isNaN(parsedDigits) && parsedDigits > 0) {
+            // Adaption of https://stackoverflow.com/a/51368257
+            number = Math.random().toFixed(parsedDigits).split(".")[1];
+          }
+
+          let result = `${adjective}${sep}${noun}`;
+          if (number > 0) {
+            result = `${adjective}${sep}${noun}${sep}${number}`;
+          }
+
+          name.value = result;
+        }
+
+        button.onclick = generateName;
+
+        generateName();
       })();
     </script>
   </body>
